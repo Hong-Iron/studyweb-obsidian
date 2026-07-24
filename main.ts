@@ -257,8 +257,20 @@ class Backend {
       if (name === "open_url") {
         const data = await this.swPost("/extract", { urls: [args.url], include_raw_content: false });
         const r = (data.results ?? [])[0];
-        if (!r) return `Could not read ${args.url}`;
-        return JSON.stringify({ url: r.url, title: r.title, content: (r.content ?? "").slice(0, 5000) });
+        if (!r) {
+          const f = (data.failed_results ?? [])[0];
+          if (f?.suggestions?.length) {
+            return JSON.stringify({ error: `Could not open ${args.url}.`, suggestions: f.suggestions,
+              note: f.note ?? "Call open_url on one of these real URLs instead." });
+          }
+          return `Could not read ${args.url}: ${f?.error ?? "unknown error"}`;
+        }
+        const out: any = { url: r.url, title: r.title, content: (r.content ?? "").slice(0, 5000) };
+        if (r.recovered_from) {
+          out.recovered_from = r.recovered_from;
+          out.note = r.note ?? "The requested URL failed; this is the closest real page on the same site.";
+        }
+        return JSON.stringify(out);
       }
       if (name === "collect_rag") {
         const data = await this.swPost("/rag", { query: args.query, max_results: args.max_results ?? 4 });
