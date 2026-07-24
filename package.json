@@ -1,0 +1,20 @@
+{
+  "name": "obsidian-studyweb-lms",
+  "version": "1.0.0",
+  "description": "Obsidian right-pane chat with a local LM Studio model + studyweb web tools.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+  },
+  "keywords": ["obsidian", "lm-studio", "llm", "web-search", "rag", "studyweb"],
+  "author": "studyweb contributors",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.8",
+    "builtin-modules": "3.3.0",
+    "esbuild": "0.21.5",
+    "obsidian": "latest",
+    "typescript": "^5.4.5"
+  }
+}

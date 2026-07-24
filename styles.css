@@ -1,0 +1,110 @@
+/* studyweb (LM Studio) — right-pane chat styling. Uses Obsidian theme vars so
+   it adapts to light/dark automatically. */
+
+.lms-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+}
+
+.lms-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+.lms-title {
+  font-weight: 600;
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+.lms-status {
+  margin-left: auto;
+  margin-right: 8px;
+  font-size: var(--font-ui-smaller);
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+.lms-status-ok { color: var(--text-success, var(--text-muted)); }
+.lms-status-bad { color: var(--text-error, var(--text-muted)); }
+
+.lms-log {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lms-msg {
+  border-radius: 10px;
+  padding: 8px 11px;
+  font-size: var(--font-ui-small);
+  line-height: 1.5;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.lms-msg > :first-child { margin-top: 0; }
+.lms-msg > :last-child { margin-bottom: 0; }
+
+.lms-user {
+  align-self: flex-end;
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+.lms-assistant {
+  align-self: flex-start;
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+}
+.lms-tool {
+  align-self: flex-start;
+  background: transparent;
+  color: var(--text-faint);
+  font-family: var(--font-monospace);
+  font-size: calc(var(--font-ui-smaller));
+  padding: 2px 6px;
+}
+
+.lms-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid var(--background-modifier-border);
+}
+
+.lms-inputbar {
+  display: flex;
+  gap: 6px;
+  padding: 8px;
+  border-top: 1px solid var(--background-modifier-border);
+}
+.lms-input {
+  flex: 1 1 auto;
+  resize: vertical;
+  min-height: 2.4em;
+  font-size: var(--font-ui-small);
+  border-radius: 8px;
+}
+.lms-send,
+.lms-stop {
+  align-self: stretch;
+  padding: 0 14px;
+  cursor: pointer;
+}
+.lms-send:disabled { opacity: 0.6; cursor: default; }
+.lms-stop { color: var(--text-error, var(--text-normal)); }
+
+.lms-icon-btn {
+  cursor: pointer;
+  font-size: var(--font-ui-smaller);
+  padding: 3px 8px;
+}
+
+/* Full-width system-prompt textarea (was an inline style). */
+.lms-system-prompt textarea { width: 100%; }

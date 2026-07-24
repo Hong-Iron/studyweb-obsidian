@@ -1,0 +1,9 @@
+{
+  "id": "studyweb-lms",
+  "name": "studyweb (LM Studio)",
+  "version": "1.0.0",
+  "minAppVersion": "1.4.0",
+  "description": "A right-sidebar chat with your local LM Studio model, armed with live web search & crawl tools (studyweb). Research the web and save it straight into your notes.",
+  "author": "studyweb",
+  "isDesktopOnly": true
+}
