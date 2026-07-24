@@ -111,6 +111,26 @@ const FALLBACK_TOOL_SCHEMAS = [
       },
     },
   },
+  {
+    type: "function",
+    function: {
+      name: "extract_data",
+      description:
+        "Extract STRUCTURED data (product name, price, specs, options) from any " +
+        "web page as JSON. Reads standard product markup when present, otherwise " +
+        "reads the page content for the requested fields; falls back to a " +
+        "headless browser for JavaScript-rendered pages.",
+      parameters: {
+        type: "object",
+        properties: {
+          url: { type: "string" },
+          fields: { type: "array", items: { type: "string" } },
+          render: { type: "string", enum: ["auto", "always", "never"] },
+        },
+        required: ["url"],
+      },
+    },
+  },
 ];
 
 /* ------------------------------------------------------------------- helpers */
@@ -246,6 +266,14 @@ class Backend {
           source_url: c.metadata?.source_url, text: (c.text ?? "").slice(0, 300),
         }));
         return JSON.stringify({ n_documents: data.n_documents, n_chunks: data.n_chunks, sample_chunks: sample });
+      }
+      if (name === "extract_data") {
+        const data = await this.swPost("/extract-data", {
+          url: args.url,
+          ...(args.fields ? { fields: args.fields } : {}),
+          render: args.render ?? "auto",
+        });
+        return JSON.stringify({ method: data.method, data: data.data, warnings: data.warnings });
       }
       return `Unknown tool: ${name}`;
     } catch (e: any) {
