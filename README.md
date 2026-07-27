@@ -1,9 +1,9 @@
 # studyweb-obsidian
 
 An **Obsidian plugin** that puts a chat with a **local or cloud model** in the
-right sidebar — armed with live web tools from the [`studyweb`](../studyweb)
-backend. Research the web without leaving your vault, then drop the results
-straight into a note.
+right sidebar — armed with live web tools from the
+[`studyweb`](https://github.com/Hong-Iron/studyWeb) backend. Research the web
+without leaving your vault, then drop the results straight into a note.
 
 ```
 Obsidian (right pane) ──▶ your model ──tool calls──▶ studyweb backend ──▶ the web
@@ -42,9 +42,10 @@ Obsidian (right pane) ──▶ your model ──tool calls──▶ studyweb ba
 1. **A model.** Either **LM Studio** with its server on (default
    `http://localhost:1234`) and a tool-capable model loaded, or an API key for
    OpenAI / Claude / NVIDIA NIM, or the `claude` CLI on your PATH.
-2. **The studyweb backend** running (from the `studyweb` project):
+2. **The [studyweb](https://github.com/Hong-Iron/studyWeb) backend** running —
+   the web tools are all served by it:
    ```bash
-   pip install /path/to/studyweb
+   pipx install "git+https://github.com/Hong-Iron/studyWeb"
    studyweb serve --port 8787
    ```
 
@@ -141,6 +142,22 @@ accordingly or use **Keep API keys on the server**.
 
 Follow the [Obsidian plugin submission guide](https://docs.obsidian.md/Plugins/Releases/Submit+your+plugin):
 tag a GitHub release containing `main.js`, `manifest.json`, and `styles.css`.
+
+## Part of the studyweb suite
+
+A local, free, private stack for web search + crawl + RAG — a self-hosted
+alternative to hosted search APIs. Three separately-published projects:
+
+| Project | What it is |
+|---|---|
+| [**studyweb**](https://github.com/Hong-Iron/studyWeb) | The Python engine: search, crawl, clean, RAG chunking, multi-site price lookup, a multi-provider model layer with usage/cost accounting, a CLI, and a Tavily-compatible HTTP API. **Required by this plugin.** |
+| **studyweb-obsidian** | This plugin. |
+| [**studyweb-lmstudio**](https://github.com/Hong-Iron/studyweb-lmstudio) | An LM Studio Tools Provider plugin — the same web tools inside the LM Studio GUI, plus `ask_expert` to hand a hard question to an external API. |
+
+The backend's [`docs/llm-guide.md`](https://github.com/Hong-Iron/studyWeb/blob/main/docs/llm-guide.md)
+is written for the *model*: which tool answers which question, and why `site:`
+operators must never appear in a query. Worth pasting into a system prompt if a
+small model keeps misusing the tools.
 
 ## License
 
