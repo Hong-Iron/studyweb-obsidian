@@ -16,7 +16,10 @@ Obsidian (right pane) ──▶ your model ──tool calls──▶ studyweb ba
 - 🗨️ **Right-pane chat** with a local model *or* a cloud one — LM Studio,
   OpenAI, the Claude API, NVIDIA NIM, the Claude Code CLI, or any
   OpenAI-compatible endpoint. Switch provider from a dropdown.
-- 🌐 **Web tools**: the model can `web_search`, `site_search`, `open_url`, and `collect_rag`
+- 🌐 **Web tools**: the model can `web_search`, `site_search`, `find_prices`, `open_url`, `extract_data`, and `collect_rag`
+- 💰 **Prices, not snippets**: `find_prices` checks several shopping sites at once
+  and reads each price off the seller's own page — cheapest first, with the sites
+  it couldn't read reported rather than hidden
 - 💸 **Usage on every answer**: tokens in/out, cost in USD, and elapsed time,
   plus a running session total and an all-time total in settings
 - 🚦 **Status lights**: a coloured dot per provider — connected, key needed,

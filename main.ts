@@ -134,6 +134,29 @@ const FALLBACK_TOOL_SCHEMAS = [
   {
     type: "function",
     function: {
+      name: "find_prices",
+      description:
+        "Look up what a product costs across several shopping sites at once and " +
+        "return every price found, cheapest first, with min/median/max. USE THIS " +
+        "FOR ANY 'how much does X cost' question — do NOT use web_search with " +
+        "site: operators, which returns snippets rather than prices. Sites that " +
+        "could not be read come back in `misses`: report those, and never present " +
+        "the remaining prices as if the whole market had been checked. " +
+        "`summary: null` means no price was found, not that the item is free.",
+      parameters: {
+        type: "object",
+        properties: {
+          query: { type: "string" },
+          sites: { type: "array", items: { type: "string" } },
+          per_site: { type: "integer", default: 3 },
+        },
+        required: ["query"],
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
       name: "open_url",
       description: "Fetch one web page and return its cleaned main text (Markdown).",
       parameters: {
@@ -1123,6 +1146,22 @@ class Backend {
           title: r.title, url: r.url, content: (r.content ?? "").slice(0, 900), score: r.score,
         }));
         return JSON.stringify({ answer: data.answer ?? "", results });
+      }
+      if (name === "find_prices") {
+        const data = await this.swPost("/prices", {
+          query: args.query,
+          ...(args.sites ? { sites: args.sites } : {}),
+          ...(args.per_site ? { per_site: args.per_site } : {}),
+        });
+        // Trimmed to what an answer needs: the number, the name, the source —
+        // plus the misses, so a partial check can't be reported as a full one.
+        return JSON.stringify({
+          summary: data.summary,
+          quotes: (data.quotes ?? []).slice(0, 12).map((q: any) => ({
+            site: q.site, price: q.price, title: q.title, url: q.url,
+          })),
+          misses: data.misses ?? [],
+        });
       }
       if (name === "open_url") {
         const data = await this.swPost("/extract", { urls: [args.url], include_raw_content: false });
