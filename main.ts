@@ -1153,12 +1153,13 @@ class Backend {
           ...(args.sites ? { sites: args.sites } : {}),
           ...(args.per_site ? { per_site: args.per_site } : {}),
         });
-        // Trimmed to what an answer needs: the number, the name, the source —
-        // plus the misses, so a partial check can't be reported as a full one.
+        // Trimmed to what an answer needs: the number, the name, the source,
+        // and how the number was read — plus the misses, so a partial check
+        // can't be reported as a full one.
         return JSON.stringify({
           summary: data.summary,
           quotes: (data.quotes ?? []).slice(0, 12).map((q: any) => ({
-            site: q.site, price: q.price, title: q.title, url: q.url,
+            site: q.site, price: q.price, title: q.title, url: q.url, method: q.method,
           })),
           misses: data.misses ?? [],
         });
